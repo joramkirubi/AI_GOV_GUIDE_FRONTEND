@@ -1,70 +1,167 @@
-# Getting Started with Create React App
+# AI Government Service Guide - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React chat app where people can ask questions about government services and get answers from our AI. Pretty straightforward stuff!
 
-## Available Scripts
+## What's This About?
 
-In the project directory, you can run:
+This is the frontend part of the AI Government Service Guide. It's basically a chat interface where users can talk to an AI and get info about government services. Nothing too fancy, just a solid chat experience.
 
-### `npm start`
+**What it does:**
+- Chat interface with message history
+- Auto-scrolls to show new messages (because who wants to scroll manually?)
+- Shows "AI is typing..." while waiting for responses
+- Clean UI that doesn't look terrible
+- Talks to a backend API to get AI responses
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## How's It Organized?
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+src/
+├── App.js                 # main app file
+├── App.css               # styling for App
+├── api.js                # handles talking to backend
+├── index.js              # entry point (don't touch this)
+├── index.css             # global styles
+├── setupTests.js         # test setup stuff
+├── components/
+│   ├── ChatWindow.jsx    # shows all the messages
+│   ├── InputBox.jsx      # where users type
+│   └── Message.jsx       # individual message component
+public/
+├── index.html            # the html file
+├── manifest.json         # PWA stuff
+└── robots.txt            # SEO stuff nobody really cares about
+```
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You'll need:
+- Node.js installed (v14 or newer)
+- npm or yarn
+- The backend server running on `http://127.0.0.1:8000/api/chat/`
 
-### `npm run build`
+### Setup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repo:
+   ```bash
+   git clone <repository-url>
+   cd AI_GOV_GUIDE_FRONTEND
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Done! You're ready to go.
 
-### `npm run eject`
+## Running The App
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Development mode
+```bash
+npm start
+```
+This runs it on http://localhost:3000. The page will reload whenever you change something, which is pretty handy.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Build for production
+```bash
+npm run build
+```
+Creates a production-ready version in the `build/` folder. All minified and optimized.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Testing
+```bash
+npm test
+```
+Runs the tests. They might fail, but that's why you're working on it, right?
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## How It Talks to the Backend
 
-## Learn More
+There's a backend API running on `http://127.0.0.1:8000/api/chat/`. When a user sends a message, the app sends it there and gets back an AI response.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The endpoint expects:
+```json
+{
+  "message": "user's question"
+}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+And returns:
+```json
+{
+  "reply": "ai's answer"
+}
+```
 
-### Code Splitting
+Check out `src/api.js` if you need to change the endpoint URL.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## The Components
 
-### Analyzing the Bundle Size
+### App.js
+The main component. It:
+- Keeps track of all the messages
+- Handles sending messages to the backend
+- Auto-scrolls the chat to the bottom (smooth scroll ftw)
+- Shows a loading state while waiting for responses
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### ChatWindow.jsx
+Just displays all the messages. Pretty simple.
 
-### Making a Progressive Web App
+### InputBox.jsx
+The text input field. Users type here and hit send. Gets disabled while loading.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Message.jsx
+A single message. Shows who sent it (user or AI) and the message text.
 
-### Advanced Configuration
+## Changing The API URL
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+If your backend is running somewhere else, just edit `src/api.js`:
 
-### Deployment
+```javascript
+const BASE_URL = "http://your-backend-url/api/chat/";
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+That's it.
 
-### `npm run build` fails to minify
+## Development Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+npm start
+```
+
+This starts the dev server. React hot-reload is enabled, so your changes show up instantly. Nice for developing.
+
+If you need to make a production build:
+
+```bash
+npm run build
+```
+
+Creates an optimized version in the `build/` folder that's ready to deploy anywhere.
+
+## What's In Here (Tech Stack)
+
+- **React 19.2.0** - the main UI library
+- **React DOM 19.2.0** - for rendering stuff
+- **Create React App** - build tooling
+
+Testing stuff:
+- @testing-library/react
+- @testing-library/dom
+- @testing-library/jest-dom
+- @testing-library/user-event
+
+## Deploying
+
+You can throw this on basically any hosting platform:
+- Vercel (super easy, literally just connect your repo)
+- Netlify (also super easy)
+- AWS S3 (if you like pain)
+- GitHub Pages
+- Or any web server that can serve static files
+
+Just run `npm run build` first and deploy the `build/` folder.
+
+## Questions?
+
+Hit up the team or create an issue if something's broken.
