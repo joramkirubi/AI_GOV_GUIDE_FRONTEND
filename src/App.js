@@ -23,7 +23,7 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await askAI(userMessage);
+      const response = await askAI(userMessage, "grok"); 
       setMessages([
         ...newMessages,
         { sender: "ai", text: response.reply },
